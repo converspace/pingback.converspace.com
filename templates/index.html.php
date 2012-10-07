@@ -9,7 +9,7 @@
 
 	<form action="" method="post">
 
-		<legend>Send Acitivity Pingback</legend>
+		<legend>Activity Pingback</legend>
 
 		<label for="source">Source</label>
 		<input class="input-xlarge" type="text" name='source' id="source" placeholder="http://pingback.sender/activity/foobar">
@@ -26,7 +26,7 @@
 		<div>
 			<p>Clicking on send will do the following:
 				<ol>
-					<li><code>Target</code> will be visited and an attempt will be made to <em>discover</em> an acitivity pingback endpoint.</li>
+					<li><code>Target</code> will be visited and an attempt will be made to <em>discover</em> an activity pingback endpoint.</li>
 					<li>If an endpoint is found
 						<ul>
 							<li>and it turns out that <code>Target</code> is using <code>pingback.converspace.com</code> as its activity pingback endpoint, then it will retrieve the activity from <code>source</code> and valdate it.  All activites for a given resource will be made available at <code>http://pingback.converspace.com/activities/for/{resource}</code> where <code>{resource}</code> is the URI of the resource.</li>
