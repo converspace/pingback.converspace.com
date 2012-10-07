@@ -27,9 +27,13 @@
 		}
 		else
 		{
-			return activity_pingback_get_and_validate_activity($source);
+			if (activity_pingback_get_and_validate_activity($source, $target))
+			{
+				return "Discoverd endpoint ($endpoint) of target ($target), notified it and, retrieved and validated activity from source ($source).";
+			}
 		}
 
+		return app\response_500('There was an error');
 
 	});
 
@@ -61,12 +65,13 @@
 			http\request("POST $endpoint", '', compact('source', 'target'));
 		}
 
-		function activity_pingback_get_and_validate_activity($source)
+		function activity_pingback_get_and_validate_activity($source, $target)
 		{
 			//TODO: try/catch
 			$response = http\request("GET $source", '', '', array(), $response_headers);
-			return $response;
+			$activity = json_decode($response, true);
 
+			return ($activity['object']['url'] == $target) ? $activity : false;
 		}
 
 
@@ -81,7 +86,7 @@
 	});
 
 
-	app\get('/test/activity', function () {
+	app\get('/test/activity.as', function () {
 
 		return app\response
 		(
