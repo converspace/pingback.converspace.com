@@ -21,8 +21,6 @@
 
 		$endpoint = activity_pingback_discover_endpoint($target);
 
-		//return "Discovered endpoint: $endpoint";
-
 		if (!preg_match('#(http://)?pingback.converspace.com/?#', 'pingback.converspace.com/'))
 		{
 			activity_pingback_notify($endpoint, $source, $target);
