@@ -1,5 +1,5 @@
 {
-    "hash": "4f9a9dcb31e459e68b0996429b5caeeb",
+    "hash": "42733b60ffa7f0a55fa6696542f47f0a",
     "packages": [
         {
             "name": "phpish/app",
@@ -7,18 +7,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpish/app",
-                "reference": "8fc1ab0671050cdc5f2040b519465d6f0c1271ce"
+                "reference": "ce3c750e6750ad5f9d7aede50bfb6c3145dffd0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/phpish/app/zipball/8fc1ab0671050cdc5f2040b519465d6f0c1271ce",
-                "reference": "8fc1ab0671050cdc5f2040b519465d6f0c1271ce",
+                "url": "https://github.com/phpish/app/zipball/ce3c750e6750ad5f9d7aede50bfb6c3145dffd0d",
+                "reference": "ce3c750e6750ad5f9d7aede50bfb6c3145dffd0d",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "1349563951",
+            "time": "1349618188",
             "type": "library",
             "installation-source": "source",
             "license": [
@@ -34,6 +34,45 @@
             ],
             "description": "Request Handler",
             "homepage": "https://github.com/phpish/app"
+        },
+        {
+            "name": "phpish/http",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpish/http",
+                "reference": "78fff9dbec68f6b639b75e5cd0e3bdf41a7bcdcf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/phpish/http/zipball/78fff9dbec68f6b639b75e5cd0e3bdf41a7bcdcf",
+                "reference": "78fff9dbec68f6b639b75e5cd0e3bdf41a7bcdcf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "time": "1349609742",
+            "type": "library",
+            "installation-source": "source",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sandeep Shetty",
+                    "email": "sandeep.shetty@gmail.com",
+                    "homepage": "http://sandeep.shetty.in",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Convenience wrapper around PHP's cURL library for making HTTP requests",
+            "homepage": "https://github.com/phpish/http",
+            "keywords": [
+                "curl",
+                "http",
+                "api"
+            ]
         },
         {
             "name": "phpish/template",
@@ -77,6 +116,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "phpish/app": 20,
-        "phpish/template": 20
+        "phpish/template": 20,
+        "phpish/http": 20
     }
 }

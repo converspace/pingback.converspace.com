@@ -19,7 +19,7 @@
 		<span class="help-block">URI of the activity you performed</span>
 
 		<label for="target">Target</label>
-		<input class="input-xlarge" type="password" name='target' id="target" placeholder="http://pingback.receiver/referenced-resource">
+		<input class="input-xlarge" type="text" name='target' id="target" placeholder="" value="http://pingback.converspace.com/test-resource">
 		<span class="help-block">URI of the object of your activity</span>
 
 		<input type="submit" class="btn btn-primary" name='action' value='Send'>
