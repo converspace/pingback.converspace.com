@@ -11,6 +11,9 @@
 
 		<legend>Activity Pingback</legend>
 
+		<div class="well well-small">
+		This is an <a href="https://github.com/converspace/pingback.converspace.com">open-source reference implementation</a> of <a href="http://activitypingback.org/">Activity Pingback</a>.</div>
+
 		<label for="source">Source</label>
 		<input class="input-xlarge" type="text" name='source' id="source" placeholder="http://pingback.sender/activity/foobar">
 		<span class="help-block">URI of the activity you performed</span>
@@ -23,7 +26,7 @@
 
 	</form>
 
-		<div>
+		<div  class="alert alert-info">
 			<p>Clicking on send will do the following:
 				<ol>
 					<li><code>Target</code> will be visited and an attempt will be made to <em>discover</em> an activity pingback endpoint.</li>
@@ -35,8 +38,6 @@
 					</li>
 				</ol>
 			</p>
-
-			<p>Read the <a href="http://activitypingback.org/">Activity Pingback Specification</a> for more info.</p>
 		</div>
 
 <script src="assets/js/jquery-1.8.2.min.js"></script>
