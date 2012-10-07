@@ -14,28 +14,34 @@
 	});
 
 	app\post('/', function ($req) {
-		//TODO: try/catch
-		$response = http\request("GET {$req['form']['target']}", '', '', array(), $response_headers);
-
-		$link_header = $link_header_endpoint = $link_element = $link_element_endpoint = '';
-
-		$link_element_regex = '#<link href="([^"]+)" rel="http://activitypingback.org/" ?/?/>#';
-		if (preg_match($link_element_regex, $response, $matches))
-		{
-			list($link_element, $link_element_endpoint) = $matches;
-		}
-
-		$link_header = isset($response_headers['link']) ? $response_headers['link'] : NULL;
-		$link_header_regex = '#<([^"]+)>; rel="http://activitypingback.org/"#';
-		if (preg_match($link_header_regex, $link_header, $matches))
-		{
-			list($link_header, $link_header_endpoint) = $matches;
-		}
 
 
-		return "Link header endpoint: $link_header_endpoint <br /> Link element endpoint: $link_element_endpoint";
+		$endpoint = activity_pingback_discover_endpoint($req['form']['target']);
+
+		return "Discovered endpoint: $endpoint";
 
 	});
+
+		function activity_pingback_discover_endpoint($target)
+		{
+			//TODO: try/catch
+			$response = http\request("GET $target", '', '', array(), $response_headers);
+
+			$link_header_regex = '#<([^"]+)>; rel="http://activitypingback.org/"#';
+			$link_header = isset($response_headers['link']) ? $response_headers['link'] : NULL;
+			if (preg_match($link_header_regex, $link_header, $matches))
+			{
+				return $matches[1];
+			}
+
+			$link_element_regex = '#<link href="([^"]+)" rel="http://activitypingback.org/" ?/?/>#';
+			if (preg_match($link_element_regex, $response, $matches))
+			{
+				return $matches[1];
+			}
+
+			return false;
+		}
 
 
 	app\get('/test-resource', function() {
