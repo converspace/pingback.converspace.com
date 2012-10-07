@@ -12,7 +12,7 @@
 		<legend>Activity Pingback</legend>
 
 		<div class="well well-small">
-		This is an <a href="https://github.com/converspace/pingback.converspace.com">open-source reference implementation</a> of <a href="http://activitypingback.org/">Activity Pingback</a>.</div>
+		This is an <a href="https://github.com/converspace/pingback.converspace.com">open-source</a> hosted endpoint for <a href="http://activitypingback.org/">Activity Pingback</a>.</div>
 
 		<label for="source">Source</label>
 		<input class="input-xlarge" type="text" name='source' id="source" placeholder="http://pingback.sender/activity/foobar">

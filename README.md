@@ -1,4 +1,4 @@
 pingback.converspace.com
 ========================
 
-Open-source reference implementation of Activity Pingback
+Open-source, hosted endpoint for Activity Pingback
