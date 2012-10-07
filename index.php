@@ -33,7 +33,7 @@
 		}
 
 
-		return "Link header endpoint $link_header_endpoint <br /> Link elements $link_element_endpoint";
+		return "Link header endpoint: $link_header_endpoint <br /> Link element endpoint: $link_element_endpoint";
 
 	});
 
