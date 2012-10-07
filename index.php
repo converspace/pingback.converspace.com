@@ -29,7 +29,7 @@
 		{
 			if (activity_pingback_get_and_validate_activity($source, $target))
 			{
-				return "Discoverd endpoint ($endpoint) of target ($target), notified it and, retrieved and validated activity from source ($source).";
+				return "Discovered endpoint ($endpoint) of target ($target), notified it, retrieved activity from source ($source) and confirmed its object is target ($target).";
 			}
 		}
 
