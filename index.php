@@ -10,15 +10,28 @@
 
 
 	app\get('/', function() {
+
 		return template\render('index.html');
 	});
 
 	app\post('/', function ($req) {
 
+		$source = $req['form']['source'];
+		$target = $req['form']['target'];
 
-		$endpoint = activity_pingback_discover_endpoint($req['form']['target']);
+		$endpoint = activity_pingback_discover_endpoint($target);
 
-		return "Discovered endpoint: $endpoint";
+		//return "Discovered endpoint: $endpoint";
+
+		if (!preg_match('#(http://)?pingback.converspace.com/?#', 'pingback.converspace.com/'))
+		{
+			activity_pingback_notify($endpoint, $source, $target);
+		}
+		else
+		{
+			return activity_pingback_get_and_validate_activity($source);
+		}
+
 
 	});
 
@@ -43,8 +56,24 @@
 			return false;
 		}
 
+		function activity_pingback_notify($endpoint, $source, $target)
+		{
+			//TODO: try/catch
+			//TODO: Check for 201 response
+			http\request("POST $endpoint", '', compact('source', 'target'));
+		}
 
-	app\get('/test-resource', function() {
+		function activity_pingback_get_and_validate_activity($source)
+		{
+			//TODO: try/catch
+			$response = http\request("GET $source", '', '', array(), $response_headers);
+			return $response;
+
+		}
+
+
+	app\get('/test/resource', function() {
+
 		return app\response
 		(
 			template\render('test-resource.html'),
@@ -54,13 +83,27 @@
 	});
 
 
+	app\get('/test/activity', function () {
+
+		return app\response
+		(
+			template\render('test-activity.json'),
+			200,
+			array('Content-Type'=>'application/stream+json')
+		);
+	});
+
+
 	app\get('/activities/for/{object}', function () {
+
 		return 'Coming Soon...';
 	});
 
 
 	app\get('/activities/by/{object}', function () {
+
 		return 'Coming Soon...';
 	});
+
 
 ?>

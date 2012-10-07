@@ -15,11 +15,11 @@
 		This is an <a href="https://github.com/converspace/pingback.converspace.com">open-source</a> hosted endpoint for <a href="http://activitypingback.org/">Activity Pingback</a>.</div>
 
 		<label for="source">Source</label>
-		<input class="input-xlarge" type="text" name='source' id="source" placeholder="http://pingback.sender/activity/foobar">
+		<input class="input-xlarge" type="text" name='source' id="source" placeholder="" value="http://pingback.converspace.com/test/activity">
 		<span class="help-block">URI of the activity you performed</span>
 
 		<label for="target">Target</label>
-		<input class="input-xlarge" type="text" name='target' id="target" placeholder="" value="http://pingback.converspace.com/test-resource">
+		<input class="input-xlarge" type="text" name='target' id="target" placeholder="" value="http://pingback.converspace.com/test/resource">
 		<span class="help-block">URI of the object of your activity</span>
 
 		<input type="submit" class="btn btn-primary" name='action' value='Send'>
