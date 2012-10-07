@@ -1,4 +1,4 @@
 pingback.converspace.com
 ========================
 
-Open-source, hosted endpoint for Activity Pingback
+Open-source, [hosted endpoint](http://pingback.converspace.com/) for [Activity Pingback](http://activitypingback.org/).
