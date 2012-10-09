@@ -74,13 +74,18 @@
 			//TODO: try/catch
 			$endpoint = activity_pingback_discover_endpoint($actor);
 
-			$response = http\request("GET $endpoint", compact('actor', 'activityid', 'object'));
+			if (!preg_match('#^(http://)?'.ENDPOINT_HOST.'/?$#', $endpoint))
+			{
+				$response = http\request("GET $endpoint", compact('actor', 'activityid', 'object'));
 
-			$activity = json_decode($response, true);
+				$activity = json_decode($response, true);
 
-			return  (($activity['actor']['url'] == $actor) and
-			         ($activity['id'] == $activityid) and
-			         ($activity['object']['url'] == $object)) ? $activity : false;
+				return  (($activity['actor']['url'] == $actor) and
+						 ($activity['id'] == $activityid) and
+						 ($activity['object']['url'] == $object)) ? $activity : false;
+			}
+
+			return false;
 		}
 
 
@@ -101,7 +106,7 @@
 		(
 			template\render('test-object.html', array('endpoint_host'=>ENDPOINT_HOST)),
 			200,
-			array('Link'=>'<http://'.ENDPOINT_HOST.'>; rel="http://activitypingback.org/"')
+			array('Link'=>'<http://'.ENDPOINT_HOST.'/>; rel="http://activitypingback.org/"')
 		);
 	});
 
