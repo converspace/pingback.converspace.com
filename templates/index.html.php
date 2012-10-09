@@ -12,21 +12,25 @@
 		<legend>Activity Pingback</legend>
 
 		<div class="well well-small">
-		This is an <a href="https://github.com/converspace/pingback.converspace.com">open-source</a> hosted endpoint for <a href="http://activitypingback.org/">Activity Pingback</a>.</div>
+		This is an <a href="https://github.com/converspace/pingback.converspace.com">open-source</a> hosted service for manually sending <a href="http://activitypingback.org/">Activity Pingbacks</a>.</div>
 
-		<label for="source">Source</label>
-		<input class="input-xlarge" type="text" name='source' id="source" placeholder="" value="http://pingback.converspace.com/test/activity.as">
-		<span class="help-block">URI of the activity you performed</span>
+		<label for="source">Actor URL</label>
+		<input class="input-xlarge" type="text" name='actor' id="actor" placeholder="" value="http://<?php echo $endpoint_host ?>/test/actor">
+		<span class="help-block">URL of the entity that performed the activity</span>
 
-		<label for="target">Target</label>
-		<input class="input-xlarge" type="text" name='target' id="target" placeholder="" value="http://pingback.converspace.com/test/resource">
-		<span class="help-block">URI of the object of your activity</span>
+		<label for="target">Activity ID</label>
+		<input class="input-xlarge" type="text" name='activityid' id="activityid" placeholder="" value="http://<?php echo $endpoint_host ?>/test/activity">
+		<span class="help-block">The permanent, universally unique identifier of the activity</span>
 
-		<input type="submit" class="btn btn-primary" name='action' value='Send'>
+		<label for="target">Object URL</label>
+		<input class="input-xlarge" type="text" name='object' id="object" placeholder="" value="http://<?php echo $endpoint_host ?>/test/object">
+		<span class="help-block">URL of the object of the activity</span>
+
+		<button type="submit" class="btn btn-primary">Send</button>
 
 	</form>
 
-		<div  class="alert alert-info">
+		<!--div  class="alert alert-info">
 			<p>Clicking on send will do the following:
 				<ol>
 					<li>An attempt will be made to discover the activity pingback endpoint for <code>Target</code>.</li>
@@ -38,7 +42,7 @@
 					</li>
 				</ol>
 			</p>
-		</div>
+		</div-->
 
 <script src="assets/js/jquery-1.8.2.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>

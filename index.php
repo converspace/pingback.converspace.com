@@ -8,28 +8,32 @@
 	use phpish\template;
 	use phpish\http;
 
+	define('ENDPOINT_HOST', 'pingback.converspace.com');
+
 
 	app\get('/', function() {
 
-		return template\render('index.html');
+		return template\render('index.html', array('endpoint_host'=>ENDPOINT_HOST));
 	});
 
 	app\post('/', function ($req) {
 
-		$source = $req['form']['source'];
-		$target = $req['form']['target'];
+		$actor = $req['form']['actor'];
+		$activityid = $req['form']['activityid'];
+		$object = $req['form']['object'];
 
-		$endpoint = activity_pingback_discover_endpoint($target);
+		$endpoint = activity_pingback_discover_endpoint($object);
 
-		if (!preg_match('#(http://)?pingback.converspace.com/?#', 'pingback.converspace.com/'))
+		if (!preg_match('#^(http://)?'.ENDPOINT_HOST.'/?$#', $endpoint))
 		{
-			activity_pingback_notify($endpoint, $source, $target);
+			activity_pingback_notify($endpoint, $actor, $activityid, $object);
+			return "Activity Pingback sent.";
 		}
 		else
 		{
-			if (activity_pingback_get_and_validate_activity($source, $target))
+			if (activity_pingback_get_and_validate_activity($actor, $activityid, $object))
 			{
-				return "Discovered endpoint ($endpoint) of target ($target), notified it, retrieved activity from source ($source) and confirmed its object is target ($target).";
+				return "Finished all steps of Activity Pingback.";
 			}
 		}
 
@@ -37,10 +41,10 @@
 
 	});
 
-		function activity_pingback_discover_endpoint($target)
+		function activity_pingback_discover_endpoint($resource)
 		{
 			//TODO: try/catch
-			$response = http\request("GET $target", '', '', array(), $response_headers);
+			$response = http\request("GET $resource", '', '', array(), $response_headers);
 
 			$link_header_regex = '#<([^"]+)>; rel="http://activitypingback.org/"#';
 			$link_header = isset($response_headers['link']) ? $response_headers['link'] : NULL;
@@ -58,39 +62,70 @@
 			return false;
 		}
 
-		function activity_pingback_notify($endpoint, $source, $target)
+		function activity_pingback_notify($endpoint, $actor, $activityid, $object)
 		{
 			//TODO: try/catch
 			//TODO: Check for 201 response
-			http\request("POST $endpoint", '', compact('source', 'target'));
+			http\request("POST $endpoint", '', compact('actor', 'activityid', 'object'));
 		}
 
-		function activity_pingback_get_and_validate_activity($source, $target)
+		function activity_pingback_get_and_validate_activity($actor, $activityid, $object)
 		{
 			//TODO: try/catch
-			$response = http\request("GET $source", '', '', array(), $response_headers);
+			$endpoint = activity_pingback_discover_endpoint($actor);
+
+			$response = http\request("GET $endpoint", compact('actor', 'activityid', 'object'));
+
 			$activity = json_decode($response, true);
 
-			return ($activity['object']['url'] == $target) ? $activity : false;
+			return  (($activity['actor']['url'] == $actor) and
+			         ($activity['id'] == $activityid) and
+			         ($activity['object']['url'] == $object)) ? $activity : false;
 		}
 
 
-	app\get('/test/resource', function() {
+	app\get('/test/actor', function() {
 
 		return app\response
 		(
-			template\render('test-resource.html'),
+			template\render('test-actor.html', array('endpoint_host'=>ENDPOINT_HOST)),
 			200,
-			array('Link'=>'<http://pingback.converspace.com/>; rel="http://activitypingback.org/"')
+			array('Link'=>'<http://'.ENDPOINT_HOST.'/test/endpoint>; rel="http://activitypingback.org/"')
 		);
 	});
 
 
-	app\get('/test/activity.as', function () {
+	app\get('/test/object', function() {
 
 		return app\response
 		(
-			template\render('test-activity.json'),
+			template\render('test-object.html', array('endpoint_host'=>ENDPOINT_HOST)),
+			200,
+			array('Link'=>'<http://'.ENDPOINT_HOST.'>; rel="http://activitypingback.org/"')
+		);
+	});
+
+	app\query('/test/endpoint', function ($req) {
+
+		if (preg_match('#^(http://)?'.ENDPOINT_HOST.'/test/actor/?$#', $req['query']['actor']) and
+			preg_match('#^(http://)?'.ENDPOINT_HOST.'/test/activity/?$#', $req['query']['activityid']) and
+			preg_match('#^(http://)?'.ENDPOINT_HOST.'/test/object/?$#', $req['query']['object']))
+		{
+			return app\response
+			(
+				template\render('test-activity.json', array('endpoint_host'=>ENDPOINT_HOST)),
+				200,
+				array('Content-Type'=>'application/stream+json')
+			);
+		}
+	});
+
+
+	app\get('/test/activity', function ($req) {
+
+		return app\response
+		(
+			template\render('test-activity.json', array('endpoint_host'=>ENDPOINT_HOST)),
 			200,
 			array('Content-Type'=>'application/stream+json')
 		);
