@@ -13,7 +13,7 @@
 
 	<form action="" method="post">
 		<div class="well well-small">
-			Use the form below to test/debug Activity Pingback implementations or just give it a spin with the pre-filled <a href="http://<?php echo $endpoint_host ?>/test/alice/activity">activity</a>: <a href="http://<?php echo $endpoint_host ?>/test/alice">Alice</a> (<code>actor</code>) liked (<code>verb</code>) Bob's <a href="http://<?php echo $endpoint_host ?>/test/bob/post">post</a> (<code>object</code>)
+			Use the form below to test/debug <a href="http://activitypingback.org/">Activity Pingback</a> implementations or just give it a spin with the pre-filled <a href="http://<?php echo $endpoint_host ?>/test/alice/activity">activity</a>: <a href="http://<?php echo $endpoint_host ?>/test/alice">Alice</a> (<code>actor</code>) liked (<code>verb</code>) Bob's <a href="http://<?php echo $endpoint_host ?>/test/bob/post">post</a> (<code>object</code>)
 		</div>
 
 		<label for="source">Actor (url):</label>
