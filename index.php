@@ -44,7 +44,6 @@
 			if (activity_pingback_get_and_validate_activity($actor, $activityid, $object, $result))
 			{
 				return template\render('test.html', compact('result'));
-				return "Finished all steps of Activity Pingback.";
 			}
 		}
 
