@@ -8,6 +8,7 @@
 	"id": "http://<?php echo $endpoint_host ?>/test/alice/activity",
 	"verb": "like",
 	"object" : {
-		"url": "http://<?php echo $endpoint_host ?>/test/bob/post"
+		"url": "http://<?php echo $endpoint_host ?>/test/bob/post",
+		"displayName": "Bob's Post"
 	}
 }

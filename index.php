@@ -95,9 +95,11 @@
 			if (!preg_match('#^(http://)?'.ENDPOINT_HOST.'/?$#', $endpoint))
 			{
 				$response = http\request("GET $endpoint", compact('actor', 'activityid', 'object'));
-				$result['activity'] = $response;
+				$result['activity']['json'] = $response;
 
 				$activity = json_decode($response, true);
+
+				$result['activity']['php'] = $activity;
 
 				return  (($activity['actor']['url'] == $actor) and
 						 ($activity['id'] == $activityid) and

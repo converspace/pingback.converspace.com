@@ -20,10 +20,17 @@
 </p>
 
 <p>
-<a href="<?php echo $result['activityid'] ?>">Activity</a>:
+<a href="<?php echo $result['activityid'] ?>">Activity</a> returned by the <a href="<?php echo $result['actor']['url'] ?>">Actor</a>'s website:
 <pre>
-<?php echo $result['activity'] ?>
+<?php echo $result['activity']['json'] ?>
 </pre>
+</p>
+
+<p>
+Activity Stream entry on <a href="<?php echo $result['object']['url'] ?>">Object</a>'s website:
+<div class="well well-small">
+<?php echo "<a href='{$result['activity']['php']['actor']['url']}'>{$result['activity']['php']['actor']['displayName']}</a> <a href='{$result['activity']['php']['id']}'>{$result['activity']['php']['verb']}d</a> <a href='{$result['activity']['php']['object']['url']}'>{$result['activity']['php']['object']['displayName']}</a>"  ?>
+</div>
 </p>
 
 <script src="assets/js/jquery-1.8.2.min.js"></script>
