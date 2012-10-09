@@ -10,10 +10,11 @@
 <div class="page-header">
   <h1><small><a href="https://github.com/converspace/pingback.converspace.com">Open-source</a> executable illustration of the <a href="http://activitypingback.org/">Activity Pingback</a> protocol flow.</small></h1>
 </div>
-	<form action="" method="post">
-		<legend>Use the form below to test/debug Activity Pingback implementations</legend>
 
-		<p>Or just give it a spin with the pre-filled <a href="http://<?php echo $endpoint_host ?>/test/alice/activity">activity</a>: <a href="http://<?php echo $endpoint_host ?>/test/alice">Alice</a> (<code>actor</code>) liked (<code>verb</code>) Bob's <a href="http://<?php echo $endpoint_host ?>/test/bob/post">post</a> (<code>object</code>)</p>
+	<form action="" method="post">
+		<div class="well well-small">
+			Use the form below to test/debug Activity Pingback implementations or just give it a spin with the pre-filled <a href="http://<?php echo $endpoint_host ?>/test/alice/activity">activity</a>: <a href="http://<?php echo $endpoint_host ?>/test/alice">Alice</a> (<code>actor</code>) liked (<code>verb</code>) Bob's <a href="http://<?php echo $endpoint_host ?>/test/bob/post">post</a> (<code>object</code>)
+		</div>
 
 		<label for="source">Actor (url):</label>
 		<input class="input-xxlarge" type="text" name='actor' id="actor" placeholder="" value="http://<?php echo $endpoint_host ?>/test/alice">

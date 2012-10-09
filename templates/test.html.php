@@ -11,8 +11,6 @@
   <h1><small><a href="https://github.com/converspace/pingback.converspace.com">Open-source</a> executable illustration of the <a href="http://activitypingback.org/">Activity Pingback</a> protocol flow.</small></h1>
 </div>
 
-<?php //print_R($result) ?>
-
 <p>
 <a href="<?php echo $result['object']['url'] ?>">Object</a>'s Activity Pingback Endpoint: <code><?php echo (false === $result['object']['endpoint']) ? 'Not Found' : htmlentities($result['object']['endpoint']) ?></code>
 </p>
