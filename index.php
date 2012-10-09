@@ -22,7 +22,17 @@
 		$activityid = $req['form']['activityid'];
 		$object = $req['form']['object'];
 
-		$endpoint = activity_pingback_discover_endpoint($object);
+
+		$result = array();
+		$result['actor']['url'] = $actor;
+		$result['activityid'] = $activityid;
+		$result['object']['url'] = $object;
+
+		$endpoint = activity_pingback_discover_endpoint($object, $result['object']);
+
+		$result['object']['endpoint'] = $endpoint;
+
+
 
 		if (!preg_match('#^(http://)?'.ENDPOINT_HOST.'/?$#', $endpoint))
 		{
@@ -31,8 +41,9 @@
 		}
 		else
 		{
-			if (activity_pingback_get_and_validate_activity($actor, $activityid, $object))
+			if (activity_pingback_get_and_validate_activity($actor, $activityid, $object, $result))
 			{
+				return template\render('test.html', compact('result'));
 				return "Finished all steps of Activity Pingback.";
 			}
 		}
@@ -41,21 +52,27 @@
 
 	});
 
-		function activity_pingback_discover_endpoint($resource)
+		function activity_pingback_discover_endpoint($resource, &$result)
 		{
 			//TODO: try/catch
 			$response = http\request("GET $resource", '', '', array(), $response_headers);
 
+			$result['response'] = $response;
+			$result['response_headers'] = $response_headers;
+
 			$link_header_regex = '#<([^"]+)>; rel="http://activitypingback.org/"#';
 			$link_header = isset($response_headers['link']) ? $response_headers['link'] : NULL;
+
 			if (preg_match($link_header_regex, $link_header, $matches))
 			{
+				$result['link_header'] = $matches[0];
 				return $matches[1];
 			}
 
 			$link_element_regex = '#<link href="([^"]+)" rel="http://activitypingback.org/" ?/?/>#';
 			if (preg_match($link_element_regex, $response, $matches))
 			{
+				$result['link_element'] = $matches[0];
 				return $matches[1];
 			}
 
@@ -69,14 +86,17 @@
 			http\request("POST $endpoint", '', compact('actor', 'activityid', 'object'));
 		}
 
-		function activity_pingback_get_and_validate_activity($actor, $activityid, $object)
+		function activity_pingback_get_and_validate_activity($actor, $activityid, $object, &$result)
 		{
 			//TODO: try/catch
-			$endpoint = activity_pingback_discover_endpoint($actor);
+			$endpoint = activity_pingback_discover_endpoint($actor, $result['actor']);
+
+			$result['actor']['endpoint'] = $endpoint;
 
 			if (!preg_match('#^(http://)?'.ENDPOINT_HOST.'/?$#', $endpoint))
 			{
 				$response = http\request("GET $endpoint", compact('actor', 'activityid', 'object'));
+				$result['activity'] = $response;
 
 				$activity = json_decode($response, true);
 
@@ -89,36 +109,37 @@
 		}
 
 
-	app\get('/test/actor', function() {
+	app\get('/test/alice', function() {
 
 		return app\response
 		(
-			template\render('test-actor.html', array('endpoint_host'=>ENDPOINT_HOST)),
+			template\render('test-alice.html', array('endpoint_host'=>ENDPOINT_HOST)),
 			200,
-			array('Link'=>'<http://'.ENDPOINT_HOST.'/test/endpoint>; rel="http://activitypingback.org/"')
+			array('Link'=>'<http://'.ENDPOINT_HOST.'/test/alice/endpoint>; rel="http://activitypingback.org/"')
 		);
 	});
 
 
-	app\get('/test/object', function() {
+	app\get('/test/bob/post', function() {
 
 		return app\response
 		(
-			template\render('test-object.html', array('endpoint_host'=>ENDPOINT_HOST)),
+			template\render('test-bobs-post.html', array('endpoint_host'=>ENDPOINT_HOST)),
 			200,
 			array('Link'=>'<http://'.ENDPOINT_HOST.'/>; rel="http://activitypingback.org/"')
 		);
 	});
 
-	app\query('/test/endpoint', function ($req) {
 
-		if (preg_match('#^(http://)?'.ENDPOINT_HOST.'/test/actor/?$#', $req['query']['actor']) and
-			preg_match('#^(http://)?'.ENDPOINT_HOST.'/test/activity/?$#', $req['query']['activityid']) and
-			preg_match('#^(http://)?'.ENDPOINT_HOST.'/test/object/?$#', $req['query']['object']))
+	app\query('/test/alice/endpoint', function ($req) {
+
+		if (preg_match('#^(http://)?'.ENDPOINT_HOST.'/test/alice/?$#', $req['query']['actor']) and
+			preg_match('#^(http://)?'.ENDPOINT_HOST.'/test/alice/activity/?$#', $req['query']['activityid']) and
+			preg_match('#^(http://)?'.ENDPOINT_HOST.'/test/bob/post/?$#', $req['query']['object']))
 		{
 			return app\response
 			(
-				template\render('test-activity.json', array('endpoint_host'=>ENDPOINT_HOST)),
+				template\render('test-alice-activity.json', array('endpoint_host'=>ENDPOINT_HOST)),
 				200,
 				array('Content-Type'=>'application/stream+json')
 			);
@@ -126,27 +147,14 @@
 	});
 
 
-	app\get('/test/activity', function ($req) {
+	app\get('/test/alice/activity', function ($req) {
 
 		return app\response
 		(
-			template\render('test-activity.json', array('endpoint_host'=>ENDPOINT_HOST)),
+			template\render('test-alice-activity.json', array('endpoint_host'=>ENDPOINT_HOST)),
 			200,
 			array('Content-Type'=>'application/stream+json')
 		);
 	});
-
-
-	app\get('/activities/for/{object}', function () {
-
-		return 'Coming Soon...';
-	});
-
-
-	app\get('/activities/by/{object}', function () {
-
-		return 'Coming Soon...';
-	});
-
 
 ?>

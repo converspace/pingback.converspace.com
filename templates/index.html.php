@@ -7,26 +7,32 @@
 <body>
 <div class="container-fluid">
 
+<div class="page-header">
+  <h1><small><a href="https://github.com/converspace/pingback.converspace.com">Open-source</a> executable illustration of the <a href="http://activitypingback.org/">Activity Pingback</a> protocol flow.</small></h1>
+</div>
 	<form action="" method="post">
+		<legend>Use the form below to test/debug Activity Pingback implementations</legend>
 
-		<legend>Activity Pingback</legend>
+		<p>Or just give it a spin with the pre-filled <a href="http://<?php echo $endpoint_host ?>/test/alice/activity">activity</a>: <a href="http://<?php echo $endpoint_host ?>/test/alice">Alice</a> (<code>actor</code>) liked (<code>verb</code>) Bob's <a href="http://<?php echo $endpoint_host ?>/test/bob/post">post</a> (<code>object</code>)</p>
 
-		<div class="well well-small">
-		This is an <a href="https://github.com/converspace/pingback.converspace.com">open-source</a> hosted service for manually sending <a href="http://activitypingback.org/">Activity Pingbacks</a>.</div>
+		<label for="source">Actor (url):</label>
+		<input class="input-xxlarge" type="text" name='actor' id="actor" placeholder="" value="http://<?php echo $endpoint_host ?>/test/alice">
+		<!-- <span class="help-block"><small>URL of the entity that performed the activity</small></span> -->
 
-		<label for="source">Actor URL</label>
-		<input class="input-xlarge" type="text" name='actor' id="actor" placeholder="" value="http://<?php echo $endpoint_host ?>/test/actor">
-		<span class="help-block">URL of the entity that performed the activity</span>
+		<label for="target">Activity ID:</label>
 
-		<label for="target">Activity ID</label>
-		<input class="input-xlarge" type="text" name='activityid' id="activityid" placeholder="" value="http://<?php echo $endpoint_host ?>/test/activity">
-		<span class="help-block">The permanent, universally unique identifier of the activity</span>
+		<input class="input-xxlarge" type="text" name='activityid' id="activityid" placeholder="" value="http://<?php echo $endpoint_host ?>/test/alice/activity">
+		<!-- <span class="help-block"><small>The permanent, universally unique identifier of the activity</small></span> -->
 
-		<label for="target">Object URL</label>
-		<input class="input-xlarge" type="text" name='object' id="object" placeholder="" value="http://<?php echo $endpoint_host ?>/test/object">
-		<span class="help-block">URL of the object of the activity</span>
 
-		<button type="submit" class="btn btn-primary">Send</button>
+		<label for="target">Object (url):</label>
+
+		<input class="input-xxlarge" type="text" name='object' id="object" placeholder="" value="http://<?php echo $endpoint_host ?>/test/bob/post">
+		<!-- <span class="help-block"><small>URL of the object of the activity</small></span> -->
+
+		<div>
+			<button type="submit" class="btn btn-primary">Test</button>
+		</div>
 
 	</form>
 
