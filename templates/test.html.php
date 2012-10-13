@@ -8,7 +8,7 @@
 <div class="container-fluid">
 
 <div class="page-header">
-  <h1><small><a href="https://github.com/converspace/pingback.converspace.com">Open-source</a> executable illustration of the <a href="http://activitypingback.org/">Activity Pingback</a> protocol flow.</small></h1>
+  <h1><small><a href="https://github.com/converspace/pingback.converspace.com">Open-source</a> hosted <a href="http://activitypingback.org/">Activity Pingback</a> proxy</small></h1>
 </div>
 
 <p>

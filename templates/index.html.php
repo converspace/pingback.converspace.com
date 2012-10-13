@@ -8,12 +8,54 @@
 <div class="container-fluid">
 
 <div class="page-header">
-  <h1><small><a href="https://github.com/converspace/pingback.converspace.com">Open-source</a> executable illustration of the <a href="http://activitypingback.org/">Activity Pingback</a> protocol flow.</small></h1>
+  <h1><small><a href="https://github.com/converspace/pingback.converspace.com">Open-source</a> hosted <a href="http://activitypingback.org/">Activity Pingback</a> proxy</small></h1>
 </div>
 
+	<h3>Sender Proxy</h3>
+
+	<p>You can use <code>pingback.converspace.com</code> to send <a href="http://activitypingback.org/">Activity Pingbacks</a> on your behalf and take advantages of the following:
+		<ul>
+			<li>Enable your resources to send Activity Pingbacks by simply sending a HTTP <code>POST</code> request. <code>pingback.converspace.com</code> takes care of the implementation steps like discovering the objects Activity Pingback endpoint.</li>
+			<li>(<strong>This is not yet operational. Coming Soon...</strong>) If the object of the activity does not support Activity Pingback, and therefore cannot receive them, <code>pingback.converspace.com</code> will <em>receive and save</em> them on it's behalf and make them available at <code>http://pingback.converspace.com/activities/for/{resource}</code> where <code>{resource}</code> is the <code>URL</code> of the object of the activity. If the object supports Activity Pingbacks in the future, <code>pingback.converspace.com</code> will send it all the Activity Pingbacks it has received on its behalf. <strong>For this reason alone it is advisable to use a proxy till widespread adoption is not achieved.</strong>
+			</li>
+			<li>(<strong>This is not yet operational. Coming Soon...</strong>) If the Activity Pingback endpoint of the object is unavailable, <code>pingback.converspace.com</code> will periodically <em>retry</em> sending the Activity Pingback.
+			</li>
+		</ul>
+	</p>
+
+	<p>
+		By delegating these responsiblitles to <code>pingback.converspace.com</code> you can <em>significantly simply</em> your implemenation.
+	</p>
+
+
+	<p>To use <code>pingback.converspace.com</code> to send Activity Pingbacks on your behalf, simply send it a HTTP <code>POST</code> request with <code>Content-Type: application/x-www-url-form-encoded</code> and the following 3 parameters:</p>
+
+
+<dl>
+  <dt>actor</dt>
+  <dd>URL of the entity that performed the activity. This is the <em>actor</em> of the activity.</dd>
+  <dt>activityid</dt>
+  <dd>The permanent, universally unique identifier of the activity</dd>
+  <dt>object</dt>
+  <dd>URL of the object of the activity</dd>
+</dl>
+
+<p>
+Example:
+<pre>
+POST / HTTP/1.1
+Host: pingback.converspace.com
+Content-Type: application/x-www-url-form-encoded
+
+actor=http://<?php echo $endpoint_host ?>/test/alice&activityid=http://<?php echo $endpoint_host ?>/test/alice/activity&object=http://<?php echo $endpoint_host ?>/test/bob/post
+</pre>
+</p>
+
+<p>This is the same as submitting the below form:</p>
+
 	<form action="" method="post">
-		<div class="well well-small">
-			Use the form below to test/debug <a href="http://activitypingback.org/">Activity Pingback</a> implementations or just give it a spin with the pre-filled <a href="http://<?php echo $endpoint_host ?>/test/alice/activity">activity</a>: <a href="http://<?php echo $endpoint_host ?>/test/alice">Alice</a> (<code>actor</code>) liked (<code>verb</code>) Bob's <a href="http://<?php echo $endpoint_host ?>/test/bob/post">post</a> (<code>object</code>)
+		<div class="alert alert-success">
+			Go ahead and give it a spin for an executable illustration of <a href="http://activitypingback.org/">Activity Pingback</a> using the pre-filled test activity: <a href="http://<?php echo $endpoint_host ?>/test/alice">Alice</a> (<code>actor</code>) <a href="http://<?php echo $endpoint_host ?>/test/alice/activity">liked</a> (<code>verb</code>) <a href="http://<?php echo $endpoint_host ?>/test/bob/post">Bob's Post</a> (<code>object</code>)
 		</div>
 
 		<label for="source">Actor (url):</label>
@@ -37,19 +79,34 @@
 
 	</form>
 
-		<!--div  class="alert alert-info">
-			<p>Clicking on send will do the following:
-				<ol>
-					<li>An attempt will be made to discover the activity pingback endpoint for <code>Target</code>.</li>
-					<li>If an endpoint is found
-						<ul>
-							<li>and it turns out that <code>Target</code> is using <code>pingback.converspace.com</code> as its activity pingback endpoint, then the activity will be retrieved from <code>Source</code> and validated.  All activites for a given resource will be made available at <code>http://pingback.converspace.com/activities/for/{resource}</code> where <code>{resource}</code> is the URI of the resource.</li>
-							<li>else, an activity pingback will be sent to the discovered endpoint.</li>
-						</ul>
-					</li>
-				</ol>
+	<hr />
+
+	<h3>Receiver Proxy</h3>
+
+<div class="alert">
+	<strong>Important note:</strong> (<strong>This is not yet operational. Coming Soon...</strong>) Use this only when you want to receive Activity Pingbacks and <strong>do not intend</strong> to send them. It is meant for non-compliant legacy systems and static resources that cannot send Activity Pingbacks, to at least start receving them.
+</div>
+
+	<p>To enable <code>pingback.converspace.com</code> to <em>receive</em> <a href="http://activitypingback.org/">Activity Pingbacks</a> on behalf of a resource, it must be set as the Activity Pingback endpoint for that resource using <strong>one or both</strong> of the following methods:</p>
+
+	<ul>
+		<li>Serve the resource with the following HTTP <code>Link</code> header:
+			<p>
+				<pre>Link: &lt;http://pingback.converspace.com/&gt;; rel="http://activitypingback.org/"</pre>
 			</p>
-		</div-->
+		</li>
+		<li>Add the following HTML <code>Link</code> tag in the <code>head</code> section of the resource:
+			<p>
+				<pre>&lt;link href="http://pingback.converspace.com/" rel="http://activitypingback.org/" /&gt;</pre>
+			</p>
+		</li>
+	</ul>
+
+	<p>
+		All activites recevied on behalf of the resource will be made available at <code>http://pingback.converspace.com/activities/for/{resource}</code> where <code>{resource}</code> is the URL of the resource.
+	</p>
+
+	<div class="alert alert-info">For more information on Activity Pingback visit: <a href="http://activitypingback.org/">http://activitypingback.org/</a></div>
 
 <script src="assets/js/jquery-1.8.2.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
