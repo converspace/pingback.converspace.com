@@ -16,9 +16,9 @@
 	<p>You can use <code>pingback.converspace.com</code> to send <a href="http://activitypingback.org/">Activity Pingbacks</a> on your behalf and take advantages of the following:
 		<ul>
 			<li>Enable your resources to send Activity Pingbacks by simply sending a HTTP <code>POST</code> request. <code>pingback.converspace.com</code> takes care of the implementation steps like discovering the objects Activity Pingback endpoint.</li>
-			<li>(<strong>This is not yet operational. Coming Soon...</strong>) If the object of the activity does not support Activity Pingback, and therefore cannot receive them, <code>pingback.converspace.com</code> will <em>receive and save</em> them on it's behalf and make them available at <code>http://pingback.converspace.com/activities/for/{resource}</code> where <code>{resource}</code> is the <code>URL</code> of the object of the activity. If the object supports Activity Pingbacks in the future, <code>pingback.converspace.com</code> will send it all the Activity Pingbacks it has received on its behalf. <strong>For this reason alone it is advisable to use a proxy till widespread adoption is not achieved.</strong>
+			<li>(<strong>Coming soon...</strong>) If the object of the activity does not support Activity Pingback, and therefore cannot receive them, <code>pingback.converspace.com</code> will <em>receive and save</em> them on it's behalf and make them available at <code>http://pingback.converspace.com/activities/for/{resource}</code> where <code>{resource}</code> is the <code>URL</code> of the object of the activity. If the object supports Activity Pingbacks in the future, <code>pingback.converspace.com</code> will send it all the Activity Pingbacks it has received on its behalf. <strong>For this reason alone it is advisable to use a proxy till widespread adoption is not achieved.</strong>
 			</li>
-			<li>(<strong>This is not yet operational. Coming Soon...</strong>) If the Activity Pingback endpoint of the object is unavailable, <code>pingback.converspace.com</code> will periodically <em>retry</em> sending the Activity Pingback.
+			<li>(<strong>Coming soon...</strong>) If the Activity Pingback endpoint of the object is unavailable, <code>pingback.converspace.com</code> will periodically <em>retry</em> sending the Activity Pingback.
 			</li>
 		</ul>
 	</p>
@@ -81,10 +81,10 @@ actor=http://<?php echo $endpoint_host ?>/test/alice&activityid=http://<?php ech
 
 	<hr />
 
-	<h3>Receiver Proxy</h3>
+	<h3>Receiver Proxy (<strong>Coming Soon...</strong>)</h3>
 
 <div class="alert">
-	<strong>Important note:</strong> (<strong>This is not yet operational. Coming Soon...</strong>) Use this only when you want to receive Activity Pingbacks and <strong>do not intend</strong> to send them. It is meant for non-compliant legacy systems and static resources that cannot send Activity Pingbacks, to at least start receving them.
+	<strong>Important note:</strong> Use this only when you want to receive Activity Pingbacks and <strong>do not intend</strong> to send them. It is meant for non-compliant legacy systems and static resources that cannot send Activity Pingbacks, to at least start receving them.
 </div>
 
 	<p>To enable <code>pingback.converspace.com</code> to <em>receive</em> <a href="http://activitypingback.org/">Activity Pingbacks</a> on behalf of a resource, it must be set as the Activity Pingback endpoint for that resource using <strong>one or both</strong> of the following methods:</p>
