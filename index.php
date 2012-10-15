@@ -138,24 +138,25 @@
 			preg_match('#^(http://)?'.ENDPOINT_HOST.'/test/alice/activity/?$#', $req['query']['activityid']) and
 			preg_match('#^(http://)?'.ENDPOINT_HOST.'/test/bob/post/?$#', $req['query']['object']))
 		{
-			return app\response
-			(
-				template\render('test-alice-activity.json', array('endpoint_host'=>ENDPOINT_HOST)),
-				200,
-				array('Content-Type'=>'application/stream+json')
-			);
+			return test_activity();
 		}
 	});
 
 
 	app\get('/test/alice/activity', function ($req) {
 
+		return test_activity();
+
+	});
+
+	function test_activity()
+	{
 		return app\response
 		(
 			template\render('test-alice-activity.json', array('endpoint_host'=>ENDPOINT_HOST)),
 			200,
 			array('Content-Type'=>'application/stream+json')
 		);
-	});
+	}
 
 ?>
